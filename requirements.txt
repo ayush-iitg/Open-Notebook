@@ -10,3 +10,4 @@ langchain-groq
 chromadb
 sentence-transformers
 
+youtube-transcript-api>=0.6.2
