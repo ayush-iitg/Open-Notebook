@@ -132,18 +132,17 @@ def get_youtube_transcript(url, language_code):
     # Try to fetch the transcript in the chosen language
     # If that language is not available, also try English as a backup
     try:
-       ytt_api = YouTubeTranscriptApi()
-       transcript_segments = ytt_api.fetch(
-        video_id,
-        languages=[language_code, "en"]
-       )
-
+        transcript_segments = YouTubeTranscriptApi.get_transcript(
+            video_id,
+            languages=[language_code, "en"]
+        )
     except (NoTranscriptFound, TranscriptsDisabled):
-       ytt_api = YouTubeTranscriptApi()
-       transcript_segments = ytt_api.fetch(
-        video_id,
-        languages=["en-auto", "en"]
-       )
+        # If neither the chosen language nor English worked,
+        # try YouTube's auto-generated English captions as a last resort
+        transcript_segments = YouTubeTranscriptApi.get_transcript(
+            video_id,
+            languages=["en-auto", "en"]
+        )
 
     # transcript_segments is a list that looks like this:
     # [
